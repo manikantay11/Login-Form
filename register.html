@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            background: url('background.jpg') no-repeat center center fixed;
+            align-items: center;
+            height: 100vh;
+        }
+        form {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+        }
+        td {
+            padding: 10px 0;
+        }
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        input[type="submit"], input[type="reset"] {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover, input[type="reset"]:hover {
+            background-color: #45a049;
+        }
+        input[type="reset"] {
+            background-color: #f44336;
+        }
+        input[disabled] {
+            background-color: #f0f0f0;
+            cursor: not-allowed;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            const uname = document.getElementById("uname").value;
+            const unameRegex = /^[A-Za-z]{1,25}$/;
+
+            if (!unameRegex.test(uname)) {
+                alert("Username must contain only letters and be a maximum of 25 characters.");
+                return false;
+            }
+
+            const pwd = document.getElementById("password").value;
+            const pwdRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,25}$/;
+
+            if (!pwdRegex.test(pwd)) {
+                alert("Password must be 8-25 characters long, include at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.");
+                return false;
+            }
+
+            const conpwd = document.getElementById("confirmPassword").value;
+            if (pwd !== conpwd) {
+                alert("Passwords do not match.");
+                return false;
+            }
+
+            const email = document.getElementById("email").value;
+            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+            if (!emailRegex.test(email)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+
+            const phone = document.getElementById("mobile").value;
+            const phoneRegex = /^[0-9]{10}$/;
+
+            if (!phoneRegex.test(phone)) {
+                alert("Mobile number must be exactly 10 digits.");
+                return false;
+            }
+
+            alert("Form submitted successfully!");
+            return true;
+        }
+
+        function enableField(nextFieldId) {
+            document.getElementById(nextFieldId).disabled = false;
+            document.getElementById(nextFieldId).focus();
+        }
+    </script>
+</head>
+<body>
+    <form name="regForm" onsubmit="return validateForm()">
+        <h1>Student Registration</h1>
+        <table>
+            <tr>
+                <td>Username:</td>
+                <td>
+                    <input type="text" id="uname" placeholder="Enter username" maxlength="25" 
+                        onblur="if(this.value.match(/^[A-Za-z]{1,25}$/)) enableField('password');">
+                </td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td>
+                    <input type="password" id="password" placeholder="Enter password" maxlength="25" 
+                        disabled onblur="if(this.value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,25}$/)) enableField('confirmPassword');">
+                </td>
+            </tr>
+            <tr>
+                <td>Confirm Password:</td>
+                <td>
+                    <input type="password" id="confirmPassword" placeholder="Confirm password" maxlength="25" 
+                        disabled onblur="if(this.value === document.getElementById('password').value) enableField('email');">
+                </td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td>
+                    <input type="email" id="email" placeholder="Enter email" disabled 
+                        onblur="if(this.value.match(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/)) enableField('mobile');">
+                </td>
+            </tr>
+            <tr>
+                <td>Mobile:</td>
+                <td>
+                    <input type="text" id="mobile" placeholder="Enter mobile number" maxlength="10" disabled>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <input type="submit" value="Submit">
+                    <input type="reset" value="Clear Form">
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
